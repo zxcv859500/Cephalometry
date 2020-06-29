@@ -1,0 +1,30 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    container_name: mysql_db
+    ports:
+      - 4275:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "rkfaorl453!"
+      MYSQL_DATABASE: "cephalometry"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "rkfaorl453!"
+    volumes:
+      - dataonly:/var/lib/mysql
+  node:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app/
+    links:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=rkfaorl453!
+      - MYSQL_DATABASE=cephalometry
+volumes:
+  dataonly:
